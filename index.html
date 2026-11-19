@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="在浏览器里编译 .scene，试玩分支、重放选择并检查规划依赖。">
+  <title>Brobport · 互动故事引擎</title>
+  <link rel="stylesheet" href="demo/demo.css">
+  <script type="module" src="demo/ui.mjs"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">&gt;_</span> Brobport</a>
+      <nav aria-label="项目">
+        <a href="https://github.com/NHUJI/brobport-scene-lexer/blob/main/SPEC.md">设计规格</a>
+        <a href="https://github.com/NHUJI/brobport-scene-lexer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">互动故事引擎</h1>
+      <p>编译一段 <code>.scene</code>，试走两个分支，再用同一组选择重放结果。</p>
+    </section>
+
+    <div class="studio">
+      <section class="panel editor-panel" aria-labelledby="editor-title">
+        <header class="panel-head">
+          <div class="panel-name">
+            <h2 id="editor-title">剧本工作台</h2>
+            <code>demo.scene</code>
+          </div>
+          <button class="button primary" id="compile" type="button">编译并运行 <span aria-hidden="true">→</span></button>
+        </header>
+        <div class="editor-tools">
+          <div class="segmented" role="group" aria-label="工作台视图">
+            <button id="source-tab" type="button" aria-pressed="true">源文件</button>
+            <button id="tokens-tab" type="button" aria-pressed="false">Tokens <span id="token-count"></span></button>
+          </div>
+          <button class="text-button" id="restore" type="button">恢复示例</button>
+        </div>
+        <div class="editor-content" id="source-pane">
+          <pre id="highlight" aria-hidden="true"></pre>
+          <textarea id="source" aria-label=".scene 正文" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
+        <div class="editor-content token-pane" id="tokens-pane" hidden>
+          <table>
+            <thead><tr><th scope="col">行</th><th scope="col">类型</th><th scope="col">缩进</th><th scope="col">ID</th><th scope="col">文本</th></tr></thead>
+            <tbody id="tokens"></tbody>
+          </table>
+        </div>
+        <div class="editor-foot">
+          <output id="compile-status" aria-live="polite"></output>
+          <span class="shortcut"><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>Enter</kbd></span>
+        </div>
+      </section>
+
+      <section class="panel player-panel" aria-labelledby="player-title">
+        <header class="panel-head">
+          <h2 id="player-title">运行预览</h2>
+          <button class="button quiet" id="restart" type="button">重新开始</button>
+        </header>
+        <div class="playhead" id="playhead" tabindex="-1">
+          <p class="run-status" id="run-status" aria-live="polite"></p>
+          <div class="transcript" id="transcript"></div>
+          <div class="options" id="options"></div>
+        </div>
+        <div class="inspector">
+          <div class="inspector-head"><h3>状态</h3><button class="text-button" id="replay" type="button">重放选择 ↻</button></div>
+          <div id="state" class="state" aria-label="当前状态"></div>
+          <ol id="events" class="events" aria-label="执行记录"></ol>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel check-panel" aria-labelledby="check-title">
+      <header class="panel-head">
+        <div class="panel-name"><h2 id="check-title">规划依赖检查</h2><code>after</code></div>
+        <div class="segmented" role="group" aria-label="依赖示例">
+          <button id="acyclic" type="button" aria-pressed="true">正常顺序</button>
+          <button id="cyclic" type="button" aria-pressed="false">循环依赖</button>
+        </div>
+      </header>
+      <div class="check-grid">
+        <pre id="dependency-source"></pre>
+        <div class="verdict" id="dependency-result" aria-live="polite">
+          <h3 id="dependency-title"></h3>
+          <code id="dependency-path"></code>
+          <p id="dependency-note"></p>
+        </div>
+      </div>
+    </section>
+    <footer>演示支持台词、选项、布尔条件与赋值，以及结束当前场景。 <a href="https://github.com/NHUJI/brobport-scene-lexer/blob/main/SPEC.md">查看完整设计规格 ↗</a></footer>
+    <noscript>此演示需要 JavaScript 来编译和运行剧本。</noscript>
+  </main>
+</body>
+</html>
