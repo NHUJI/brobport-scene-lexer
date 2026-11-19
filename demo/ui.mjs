@@ -1,4 +1,4 @@
-import { compileScene, findDependencyCycle, replayScene } from "./engine.mjs";
+import { compileScene, findDependencyCycle, replayScene } from "../engine/index.mjs";
 
 const example = `*核验台等待输入。* ^n4f8m1rw
 @set verified = false

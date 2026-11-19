@@ -15,3 +15,17 @@
 ```sh
 node example.mjs
 ```
+
+## 引擎与测试
+
+`engine/index.mjs` 是浏览器和 Node 共用的入口。编译器把 lexer 的输出组装成场景指令树。执行器从初始状态按选项记录重放，路线检查器在给定预算内遍历选项并汇总正常终点和运行错误。规划依赖检查独立处理 `after` 图。
+
+```js
+import { compileScene, exploreRoutes } from "./engine/index.mjs";
+
+const program = compileScene("@choice\n> Continue\n  guide: Ready.\n> Leave\n  -> end");
+const report = exploreRoutes(program, { maxRuns: 20 });
+console.log(report.complete, report.completed.length); // true, 2
+```
+
+用 Node.js 22 或 24 运行 `npm test`。GitHub Actions 会在这两个版本上跑同一套测试。

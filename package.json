@@ -1,0 +1,7 @@
+{
+  "name": "brobport-scene-engine",
+  "private": true,
+  "exports": "./engine/index.mjs",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test" }
+}

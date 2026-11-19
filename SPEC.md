@@ -50,3 +50,12 @@ guide: 开始吧。 ^f6w2t8nz
 | 声明 A、B、C 互相等待 | 检查器报告完整依赖环。 |
 
 浏览器演示使用正文里的 `@set` 初始化变量，条件支持 `@if flag`、`@if not flag` 与 `@else`。表里的四项都可以通过演示验证。命令行运行 `node example.mjs` 可单独查看词法分析输出。
+
+## 5. 仓库接口
+
+- `compileScene(source)` 接收单场正文，返回 token 和指令树。语法错误带原文行号。
+- `replayScene(program, selections)` 从空状态应用选项记录，返回状态、台词、执行记录和下一组可选项。选项优先使用永久 ID，省略 ID 时使用该版本的行号。
+- `exploreRoutes(program, { maxRuns })` 按源文件顺序遍历单场选项，分别收集完整路线和执行错误。每次重放计入预算，仍有路线待查时返回 `complete: false`。
+- `findDependencyCycle(steps)` 接收步骤到前置步骤列表的映射，返回一条闭合路径或 `null`。
+
+当前实现的范围是单场正文与布尔状态。跨章编译、存档快照和完整条件语言属于整体设计。
